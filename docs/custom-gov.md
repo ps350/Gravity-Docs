@@ -1,6 +1,9 @@
 # Gravity Bridge specific governance proposals
 
-Gravity Bridge has a series of custom governance proposal types. This documents what these proposal types are and how to submit them.
+If you are looking to create a proposal please post on the [Commonwealth](https://commonwealth.im/gravity-bridge) forum to gather sentiment
+and advice.
+
+Gravity Bridge has a series of custom governance proposal types. This documents what these proposal types are and how to submit them at a technical level.
 
 ## IBC metadata
 
@@ -10,9 +13,9 @@ Here is an example proposal.json
 
 ```json
 {
- "Title": "My proposal title",
- "Description": "My proposal text, use \n to generate a new line",
- "Metadata": {
+ "title": "My proposal title",
+ "description": "My proposal text, use \n to generate a new line",
+ "metadata": {
   "base": "ibc/hashvalue",
   "denom_units": [
    {
@@ -35,11 +38,11 @@ Here is an example proposal.json
   "name": "Atom",
   "symbol": "ATOM"
  },
- "IbcDenom": "ibc/hashvalue"
+ "ibc_denom": "ibc/hashvalue"
 }
 ```
 
-Note a few key elements here. The base denom and the `IbcDenom` field must line up and be the IBC token name on the Gravity Bridge chain.
+Note a few key elements here. The base denom and the `ibc_denom` field must line up and be the IBC token name on the Gravity Bridge chain.
 
 Once you have formed your `proposal.json` simply submit it
 
@@ -55,11 +58,11 @@ Here is an example proposal.json
 
 ```json
 {
- "Title": "My proposal title",
- "Denom": "ugraviton",
- "Description": "My proposal text, use \n to generate a new line",
- "Amounts": [100, 200],
- "Recipients": ["gravity1FIRSTPERSON", "gravity1SECONDPERSON"]
+ "title": "My proposal title",
+ "denom": "ugraviton",
+ "description": "My proposal text, use \n to generate a new line",
+ "amounts": [100, 200],
+ "recipients": ["gravity1FIRSTPERSON", "gravity1SECONDPERSON"]
 }
 ```
 
@@ -72,3 +75,11 @@ Once you have formed your `proposal.json` simply submit it
 ```bash
 gravity tx gravity gov-airdrop proposal.json 10000000ugraviton
 ```
+
+## IBC auto forwarding
+
+The `UpdateHrpIbcChannelProposal` allows for sends to go directly from Ethereum to a Cosmos destination chain. For example a send to a cosmos1 address string sent to `Gravity.sol` will arrive directly at that address on the cosmos hub without stopping by Gravity Bridge and forcing the user to send an IBC transaction
+
+In order to map the address prefix to the ibc channel you must submit a proposal using the command
+
+`gravity tx bech32ibc update-hrp-ibc-record`
